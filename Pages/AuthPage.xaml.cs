@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TaskManagment.Data;
 
 namespace TaskManagment.Pages
 {
@@ -36,7 +37,8 @@ namespace TaskManagment.Pages
                 onSuccess: (userId, role) =>
                 {
                     MessageBox.Show($"Welcome {role}!");
-                    // Перейти к следующему окну
+                   
+                    NavigationService?.Navigate(new UserWindow(int.Parse(userId)));
                 },
                 onError: (error) =>
                 {

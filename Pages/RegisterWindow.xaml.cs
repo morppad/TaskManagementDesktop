@@ -49,7 +49,7 @@ namespace TaskManagment.Pages
 
         private void SwitchToLogin_Click(object sender, RoutedEventArgs e)
         {
-            //todo
+            NavigationService.GoBack();
         }
     }
 }

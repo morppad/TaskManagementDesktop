@@ -29,11 +29,11 @@ namespace TaskManagment.Pages
     public partial class UserWindow : Page
     {
         public ObservableCollection<TaskModel> Tasks { get; set; } = new ObservableCollection<TaskModel>();
-        public UserWindow()
+        public UserWindow(int userId)
         {
             InitializeComponent();
             TasksListView.ItemsSource = Tasks;
-            LoadTasks(Data.TaskModel.userId);
+            LoadTasks(userId);
         }
         private async void LoadTasks(int userId)
         {

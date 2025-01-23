@@ -34,7 +34,7 @@ namespace TaskManagment.Data
         public long Id { get; set; }
 
         [Column("user_id")]
-        public int UserId { get; set; }
+        public int userId { get; set; }
 
         [Column("title")]
         public string Title { get; set; }
@@ -71,7 +71,7 @@ namespace TaskManagment.Data
         public int Content { get; set; }
 
         [Column("user_id")]
-        public string UseriD { get; set; }
+        public string userId { get; set; }
 
         [Column("task_id")]
         public string TaskId { get; set; }
