@@ -14,10 +14,10 @@ namespace TaskManagment.Data
         [Column("email")]
         public string Email { get; set; }
 
-        [Column("password")]
+        [Column("password_hash")]
         public string Password { get; set; }
 
-        [Column("name")]
+        [Column("username")]
         public string Name { get; set; }
 
         [Column("role")]
@@ -59,5 +59,33 @@ namespace TaskManagment.Data
 
         // Открытый конструктор без параметров
         public TaskModel() { }
+    }
+
+    [Table("comments")]
+    public class CommentsModel : BaseModel
+    {
+        [PrimaryKey("id")]
+        public long Id { get; set; }
+
+        [Column("content")]
+        public int Content { get; set; }
+
+        [Column("user_id")]
+        public string UseriD { get; set; }
+
+        [Column("task_id")]
+        public string TaskId { get; set; }
+
+         //[Column("due_date")]
+        //public DateTime? DueDate { get; set; }
+
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        //[Column("updated_at")]
+        //public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+        // Открытый конструктор без параметров
+        public CommentsModel() { }
     }
 }

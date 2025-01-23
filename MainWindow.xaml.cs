@@ -19,34 +19,34 @@ namespace TaskManagment
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<string> Tables { get; set; } = new ObservableCollection<string>();
+        //public ObservableCollection<string> Tables { get; set; } = new ObservableCollection<string>();
 
         public MainWindow()
         {
             InitializeComponent();
-            TablesListBox.ItemsSource = Tables;
-            LoadTables();
+            //TablesListBox.ItemsSource = Tables;
+            //LoadTables();
         }
 
-        private async void LoadTables()
-        {
-            try
-            {
-                // Извлечение данных из таблицы `public.tasks`
-                var response = await Class1.SupabaseClient.From<TaskModel>().Get();
-                if (response != null)
-                {
-                    Tables.Clear();
-                    foreach (var task in response.Models)
-                    {
-                        Tables.Add($"Task ID: {task.Id}, Title: {task.Title}, Status: {task.Status}");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка загрузки таблиц: {ex.Message}");
-            }
-        }
+        //private async void LoadTables()
+        //{
+        //    try
+        //    {
+        //        // Извлечение данных из таблицы `public.tasks`
+        //        var response = await Class1.SupabaseClient.From<TaskModel>().Get();
+        //        if (response != null)
+        //        {
+        //            Tables.Clear();
+        //            foreach (var task in response.Models)
+        //            {
+        //                Tables.Add($"Task ID: {task.Id}, Title: {task.Title}, Status: {task.Status}");
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"Ошибка загрузки таблиц: {ex.Message}");
+        //    }
+        //}
     }
 }
