@@ -20,7 +20,7 @@ namespace TaskManagment.Services
         {
             try
             {
-                var users = await Class1.SupabaseClient.From<User>().Get();
+                var users = await SupabaseClient.supabase.From<User>().Get();
                 var user = users.Models.FirstOrDefault(u => u.Email == email);
 
                 if (user == null)
@@ -62,7 +62,7 @@ namespace TaskManagment.Services
                         Role = "user"
                     };
 
-                    await Class1.SupabaseClient.From<User>().Insert(newUser);
+                    await SupabaseClient.supabase.From<User>().Insert(newUser);
                     onSuccess();
                 }
                 catch (Exception ex)

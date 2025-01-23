@@ -1,11 +1,11 @@
 ﻿using Supabase;
 using System;
 
-public static class Class1
+public static class SupabaseClient
 {
-    public static Client SupabaseClient;
+    public static Client supabase;
 
-    static Class1()
+    static SupabaseClient()
     {
         try
         {
@@ -20,13 +20,13 @@ public static class Class1
                 throw new Exception("SUPABASE_URL или SUPABASE_KEY не установлены.");
             }
 
-            SupabaseClient = new Client(url, key, new Supabase.SupabaseOptions
+            supabase = new Client(url, key, new Supabase.SupabaseOptions
             {
                 AutoConnectRealtime = true
             });
 
             Console.WriteLine("Клиент Supabase создан. Инициализация...");
-            SupabaseClient.InitializeAsync();
+            supabase.InitializeAsync();
             Console.WriteLine("Инициализация Supabase завершена.");
         }
         catch (Exception ex)

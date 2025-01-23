@@ -55,7 +55,7 @@ namespace TaskManagment.Pages
         {
             try
             {
-                var response = await Class1.SupabaseClient
+                var response = await SupabaseClient.supabase
                     .From<TaskModel>()
                     .Filter("user_id", Supabase.Postgrest.Constants.Operator.Equals, userId)
                     .Get();
