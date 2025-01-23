@@ -1,25 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using TaskManagment.Data;
-using Supabase.Gotrue;
-using Supabase.Postgrest;
 
 namespace TaskManagment.Pages
 {
@@ -29,12 +11,17 @@ namespace TaskManagment.Pages
     public partial class UserWindow : Page
     {
         public ObservableCollection<TaskModel> Tasks { get; set; } = new ObservableCollection<TaskModel>();
+        private int _currentUserId; // Хранит ID текущего пользователя
+
         public UserWindow(int userId)
         {
             InitializeComponent();
-            TasksListView.ItemsSource = Tasks;
-            LoadTasks(userId);
+            _currentUserId = userId; // Сохраняем ID пользователя
+            TasksListView.ItemsSource = Tasks; // Привязываем список задач к ListView
+            LoadTasks(_currentUserId); // Загружаем задачи при инициализации
         }
+
+        // Метод загрузки задач пользователя
         private async void LoadTasks(int userId)
         {
             try
@@ -51,6 +38,8 @@ namespace TaskManagment.Pages
                 MessageBox.Show($"Error loading tasks: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        // Метод получения задач из Supabase
         private async Task<ObservableCollection<TaskModel>> FetchUserTasks(int userId)
         {
             try
@@ -68,6 +57,11 @@ namespace TaskManagment.Pages
                 return new ObservableCollection<TaskModel>();
             }
         }
+
+        // Обработчик нажатия кнопки "Обновить"
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            LoadTasks(_currentUserId); // Повторная загрузка задач
+        }
     }
 }
-
