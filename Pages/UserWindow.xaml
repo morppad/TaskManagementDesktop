@@ -14,7 +14,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Button x:Name="Refresh" Margin="0,0,646,0" Content="Обновить" Click="Refresh_Click" />
-        <ListView x:Name="TasksListView" Grid.Row="1">
+        <ListView x:Name="TasksListView"
+          Grid.Row="1"
+          MouseDoubleClick="TasksListView_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" Width="150" />

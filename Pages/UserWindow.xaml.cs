@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows;
 using TaskManagment.Data;
+using System.Windows.Input;
 
 namespace TaskManagment.Pages
 {
@@ -63,5 +64,15 @@ namespace TaskManagment.Pages
         {
             LoadTasks(_currentUserId); // Повторная загрузка задач
         }
+
+        private void TasksListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (TasksListView.SelectedItem is TaskModel selectedTask)
+            {
+                NavigationService?.Navigate(new UserCommentPage(selectedTask, _currentUserId));
+            }
+        }
     }
+
+
 }
