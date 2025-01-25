@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TaskManagment.Data;
+using TaskManagment.Services;
 
 namespace TaskManagment.Pages
 {
@@ -28,25 +29,48 @@ namespace TaskManagment.Pages
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            string email = EmailTextBox.Text;
-            string password = PasswordBox.Password;
+            string email = EmailTextBox.Text.Trim();
+            string password = PasswordBox.Password.Trim();
 
-            await Services.AuthServises.LoginUser(
-                email,
-                password,
-                onSuccess: (userId, role) =>
-                {
-                    MessageBox.Show($"Welcome {role}!");
-                   
-                    NavigationService?.Navigate(new UserWindow(int.Parse(userId)));
-                },
-                onError: (error) =>
-                {
-                    ErrorTextBlock.Text = error;
-                    ErrorTextBlock.Visibility = Visibility.Visible;
-                });
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                ErrorTextBlock.Text = "Email и пароль не могут быть пустыми.";
+                ErrorTextBlock.Visibility = Visibility.Visible;
+                return;
+            }
+
+            try
+            {
+                // Используем AuthServises для авторизации
+                await AuthServises.LoginUser(
+                    email,
+                    password,
+                    onSuccess: (userId, role) =>
+                    {
+                        // Перенаправляем в зависимости от роли
+                        if (role == "manager")
+                        {
+                            NavigationService?.Navigate(new ItsTimeToChoose());
+                        }
+                        else
+                        {
+                            NavigationService?.Navigate(new UserWindow(int.Parse(userId)));
+                        }
+                    },
+                    onError: (error) =>
+                    {
+                        ErrorTextBlock.Text = error;
+                        ErrorTextBlock.Visibility = Visibility.Visible;
+                    });
+            }
+            catch (Exception ex)
+            {
+                ErrorTextBlock.Text = $"Ошибка входа: {ex.Message}";
+                ErrorTextBlock.Visibility = Visibility.Visible;
+            }
         }
-        
+
+
 
         private void SwitchToRegister_Click(object sender, RoutedEventArgs e)
         {
