@@ -10,39 +10,44 @@
     <Grid Margin="10">
         <StackPanel>
             <Button Content="Добавить задачу" Margin="0,0,0,10" Width="200" Click="AddTaskButton_Click" />
-            <ListView x:Name="TasksListView" Margin="0,10,0,0">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Border Margin="5" Padding="10" BorderBrush="Gray" BorderThickness="1" CornerRadius="5">
-                            <Border.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Редактировать" Click="EditTaskMenuItem_Click" />
-                                    <MenuItem Header="Удалить" Click="DeleteTaskMenuItem_Click" />
-                                </ContextMenu>
-                            </Border.ContextMenu>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Title}" FontSize="16" FontWeight="Bold" />
-                                <TextBlock>
-                                    <Run Text="Priority: " />
-                                    <Run Text="{Binding Priority}" />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Assigned User: " />
-                                    <Run Text="{Binding UserName}" />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Due Date: " />
-                                    <Run Text="{Binding DueDate}" />
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Status: " />
-                                    <Run Text="{Binding Status}" />
-                                </TextBlock>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+
+            <!-- Оборачиваем ListView в ScrollViewer -->
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ListView x:Name="TasksListView" Margin="0,10,0,0">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="5" Padding="10" BorderBrush="Gray" BorderThickness="1" CornerRadius="5">
+                                <Border.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Подробнее" Click="ViewTaskDetailsMenuItem_Click" />
+                                        <MenuItem Header="Редактировать" Click="EditTaskMenuItem_Click" />
+                                        <MenuItem Header="Удалить" Click="DeleteTaskMenuItem_Click" />
+                                    </ContextMenu>
+                                </Border.ContextMenu>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Title}" FontSize="16" FontWeight="Bold" />
+                                    <TextBlock>
+                                        <Run Text="Priority: " />
+                                        <Run Text="{Binding Priority}" />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run Text="Assigned User: " />
+                                        <Run Text="{Binding UserName}" />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run Text="Due Date: " />
+                                        <Run Text="{Binding DueDate}" />
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run Text="Status: " />
+                                        <Run Text="{Binding Status}" />
+                                    </TextBlock>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollViewer>
         </StackPanel>
     </Grid>
 </Page>

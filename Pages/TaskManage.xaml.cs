@@ -532,6 +532,47 @@ namespace TaskManagment.Pages
             window.ShowDialog();
         }
 
+        private async void ViewTaskDetailsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (TasksListView.SelectedItem is not TaskViewModel selectedTask)
+            {
+                MessageBox.Show("Пожалуйста, выберите задачу для просмотра.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
+            try
+            {
+                var taskResponse = await SupabaseClient.supabase
+                    .From<TaskModel>()
+                    .Filter("title", Supabase.Postgrest.Constants.Operator.Equals, selectedTask.Title)
+                    .Get();
+
+                if (!taskResponse.Models.Any())
+                {
+                    MessageBox.Show("Ошибка: задача не найдена.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                var task = taskResponse.Models.First();
+
+                var commentsResponse = await SupabaseClient.supabase
+                    .From<CommentsModel>()
+                    .Filter("task_id", Supabase.Postgrest.Constants.Operator.Equals, task.Id.ToString())
+                    .Get();
+
+                var comments = commentsResponse.Models.Select(comment => new CommentViewModel
+                {
+                    Content = comment.Content,
+                    IsCurrentUserComment = comment.userId == CurrentUser.Id.ToString(),
+                    userId = comment.userId
+                }).ToList();
+
+                OpenTaskContextMenu(task, comments);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке задачи: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }
