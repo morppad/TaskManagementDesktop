@@ -1,25 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TaskManagment.Data;
 using TaskManagment.Services;
 
 namespace TaskManagment.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для AuthPage.xaml
-    /// </summary>
     public partial class AuthPage : Page
     {
         public AuthPage()
@@ -41,16 +27,30 @@ namespace TaskManagment.Pages
 
             try
             {
-                // Используем AuthServises для авторизации
+                // Используем AuthServices для авторизации
                 await AuthServises.LoginUser(
                     email,
                     password,
-                    onSuccess: (userId, role) =>
+                    onSuccess: async (userId, role) =>
                     {
-                        // Перенаправляем в зависимости от роли
+                        // Получаем текущего пользователя из базы
+                        var currentUser = await SupabaseClient.supabase
+                            .From<User>()
+                            .Filter("id", Supabase.Postgrest.Constants.Operator.Equals, userId)
+                            .Single();
+
+                        // Проверяем успешность получения пользователя
+                        if (currentUser == null)
+                        {
+                            ErrorTextBlock.Text = "Ошибка: текущий пользователь не найден.";
+                            ErrorTextBlock.Visibility = Visibility.Visible;
+                            return;
+                        }
+
+                        // Навигация в зависимости от роли
                         if (role == "manager")
                         {
-                            NavigationService?.Navigate(new ItsTimeToChoose());
+                            NavigationService?.Navigate(new ItsTimeToChoose(currentUser));
                         }
                         else
                         {
@@ -70,14 +70,9 @@ namespace TaskManagment.Pages
             }
         }
 
-
-
         private void SwitchToRegister_Click(object sender, RoutedEventArgs e)
         {
             NavigationService?.Navigate(new RegisterWindow());
-            
         }
-
-
     }
 }

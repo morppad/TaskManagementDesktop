@@ -10,5 +10,8 @@ namespace TaskManagment.Data
     {
         public string Content { get; set; }
         public bool IsCurrentUserComment { get; set; }
+        public string UserName { get; set; } // Имя пользователя, оставившего комментарий
+        public string userId { get; set; } // ID пользователя, оставившего комментарий
     }
 }
+

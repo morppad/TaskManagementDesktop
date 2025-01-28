@@ -1,13 +1,17 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using TaskManagment.Data;
 
 namespace TaskManagment.Pages
 {
     public partial class ItsTimeToChoose : Page
     {
-        public ItsTimeToChoose()
+        private User CurrentUser { get; set; }
+
+        public ItsTimeToChoose(User currentUser)
         {
             InitializeComponent();
+            CurrentUser = currentUser;
         }
 
         // Обработчик кнопки "Управление пользователями"
@@ -19,8 +23,7 @@ namespace TaskManagment.Pages
         // Обработчик кнопки "Управление задачами"
         private void ManageTaskButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new ManageTask());
+            NavigationService?.Navigate(new TaskManage(CurrentUser));
         }
     }
 }
-
